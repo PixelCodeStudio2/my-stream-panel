@@ -1,0 +1,15 @@
+name: Cloud Streaming Engine
+on:
+  repository_dispatch:
+    types: [start_stream]
+jobs:
+  stream:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download Video from Dashboard URL
+      run: |
+        sudo apt-get update && sudo apt-get install -y ffmpeg curl
+        curl -L "${{ github.event.client_payload.video_url }}" -o video.mp4
+    - name: Run Max 24H Live Loop
+      run: |
+        timeout 24h ffmpeg -re -stream_loop -1 -i "video.mp4" -c:v libx264 -preset veryfast -b:v 2500k -f flv "rtmp://://youtube.com{{ github.event.client_payload.stream_key }}"
