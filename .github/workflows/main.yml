@@ -6,10 +6,20 @@ jobs:
   stream:
     runs-on: ubuntu-latest
     steps:
-    - name: Download Video from Dashboard URL
+    - name: Checkout Code Repository
+      uses: actions/checkout@v3
+
+    - name: Auto-Clean Old Video Storage
+      run: |
+        echo "[CLEANUP] Purging previous media data to save free storage..."
+        rm -f video.mp4
+        
+    - name: Download New Video Packets
       run: |
         sudo apt-get update && sudo apt-get install -y ffmpeg curl
         curl -L "${{ github.event.client_payload.video_url }}" -o video.mp4
+        
     - name: Run Max 24H Live Loop
       run: |
         timeout 24h ffmpeg -re -stream_loop -1 -i "video.mp4" -c:v libx264 -preset veryfast -b:v 2500k -f flv "rtmp://://youtube.com{{ github.event.client_payload.stream_key }}"
+        
