@@ -1,250 +1,841 @@
+```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ CYBER PANEL PRO: 24/7 STREAM ENGINE ⚡</title>
+    <title>RTMP Cyber Mainframe - Autonomous Live Dispatcher</title>
+
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#030712',
+                            card: 'rgba(10, 16, 31, 0.75)',
+                            panel: '#091122',
+                            border: '#1e2d4d',
+                            borderGlow: '#00f0ff',
+                            cyan: '#00f0ff',
+                            sapphire: '#0b2559',
+                            crimson: '#ff0055',
+                            neonGreen: '#00ff66',
+                            warning: '#ffb700',
+                            purple: '#9d00ff'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        orbitron: ['Orbitron', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'glow-cyan': '0 0 20px rgba(0, 240, 255, 0.35)',
+                        'glow-crimson': '0 0 20px rgba(255, 0, 85, 0.4)',
+                        'glow-green': '0 0 20px rgba(0, 255, 102, 0.4)',
+                        'card-glow': '0 8px 32px 0 rgba(0, 0, 0, 0.6)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        :root { 
-            --bg-darker: #030408;
-            --bg-main: #070913; 
-            --panel-glow: #0d122c; 
-            --neon-blue: #00f0ff; 
-            --neon-red: #ff0055; 
-            --neon-green: #00ff66;
-            --text-bright: #ffffff; 
-            --text-muted: #61718a; 
-            --card-border: #18224b;
-        }
-        body { 
-            font-family: 'Segoe UI', Roboto, sans-serif; 
-            background-color: var(--bg-darker); 
-            color: var(--text-bright); 
-            padding: 15px; 
-            display: flex; 
-            justify-content: center; 
-            margin: 0;
-            background-image: radial-gradient(circle at 50% 0%, #11173b 0%, var(--bg-darker) 80%);
-        }
-        .mainframe { 
-            width: 100%; 
-            max-width: 530px; 
-            background: var(--bg-main); 
-            padding: 25px; 
-            border-radius: 24px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 40px rgba(0,240,255,0.03); 
-            border: 1px solid var(--card-border); 
-            margin-top: 10px; 
-            box-sizing: border-box;
-        }
-        
-        .system-monitor { 
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            background: rgba(2, 3, 10, 0.8); 
-            padding: 16px; 
-            border-radius: 16px; 
-            border: 1px solid #141d3d; 
-            margin-bottom: 25px; 
-        }
-        .status-badge { 
-            display: flex; 
-            align-items: center; 
-            font-weight: 900; 
-            font-size: 12px; 
-            letter-spacing: 2px;
-            padding: 8px 14px;
-            background: rgba(255, 0, 85, 0.07);
-            border-radius: 30px;
-            border: 1px solid rgba(255, 0, 85, 0.2);
-            width: fit-content;
-            transition: all 0.4s;
-        }
-        .dot { 
-            width: 10px; 
-            height: 10px; 
-            border-radius: 50%; 
-            margin-right: 10px; 
-            display: inline-block; 
-        }
-        .dot-offline { background-color: var(--neon-red); box-shadow: 0 0 12px var(--neon-red); }
-        .dot-live { background-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green); animation: blink 1s infinite; }
-        .storage-monitor { 
-            font-size: 11px; 
-            text-align: right; 
-            color: var(--neon-blue); 
-            font-family: monospace; 
-            line-height: 1.5;
-            font-weight: bold;
+        /* Cyber Grid Overlay Background */
+        body {
+            background-color: #030712;
+            background-image: 
+                linear-gradient(to right, rgba(30, 45, 77, 0.15) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(30, 45, 77, 0.15) 1px, transparent 1px),
+                radial-gradient(circle at 50% 0%, rgba(11, 37, 89, 0.4) 0%, transparent 70%);
+            background-size: 40px 40px, 40px 40px, 100% 100%;
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
         }
 
-        h2 { 
-            text-align: center; 
-            color: var(--neon-blue); 
-            margin: 0 0 25px 0; 
-            font-size: 22px; 
-            text-shadow: 0 0 15px rgba(0,240,255,0.4); 
-            letter-spacing: 3px; 
-            font-weight: 900;
-            text-transform: uppercase; 
+        /* Glassmorphic Panel Styling */
+        .glass-panel {
+            background: rgba(8, 14, 28, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(30, 45, 77, 0.8);
+            border-radius: 0.85rem;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-panel:hover {
+            border-color: rgba(0, 240, 255, 0.35);
         }
 
-        .cyber-card {
-            background: rgba(13, 18, 44, 0.4);
-            border: 1px solid #141d40;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            box-shadow: inset 0 0 15px rgba(0,240,255,0.02);
-            transition: all 0.3s;
+        /* Cyber Input Box Styling */
+        .cyber-input {
+            background: rgba(3, 7, 18, 0.85);
+            border: 1px solid #1e2d4d;
+            color: #00f0ff;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s ease;
         }
-        .cyber-card:hover {
-            border-color: #1d2d66;
-            box-shadow: inset 0 0 20px rgba(0,240,255,0.04);
-        }
-        .card-header-tag {
-            font-size: 11px;
-            font-weight: 900;
-            color: var(--neon-blue);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            border-left: 3px solid var(--neon-blue);
-            padding-left: 8px;
+        .cyber-input:focus {
+            border-color: #00f0ff;
+            outline: none;
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
         }
 
-        .input-wrapper { margin-bottom: 16px; }
-        label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-        
-        input[type="text"], input[type="password"], select { 
-            width: 100%; 
-            padding: 14px; 
-            border-radius: 10px; 
-            border: 1px solid #192347; 
-            background: #03050c; 
-            color: #fff; 
-            box-sizing: border-box; 
-            font-size: 14px; 
-            font-family: monospace;
-            transition: all 0.3s; 
+        /* Pulse Animations */
+        @keyframes pulse-dot {
+            0%, 100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 8px #00ff66); }
+            50% { transform: scale(1.25); opacity: 0.5; filter: drop-shadow(0 0 2px #00ff66); }
         }
-        input:focus, select:focus { 
-            border-color: var(--neon-blue); 
-            outline: none; 
-            box-shadow: 0 0 12px rgba(0,240,255,0.3); 
+        .animate-live-indicator {
+            animation: pulse-dot 1.4s infinite ease-in-out;
         }
 
-        .viewport-screen { 
-            width: 100%; 
-            height: 170px; 
-            background: #010205; 
-            border-radius: 12px; 
-            border: 1px dashed #1d2954; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            overflow: hidden; 
-            position: relative; 
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(1000%); }
         }
-        video { width: 100%; height: 100%; object-fit: cover; display: none; }
-        .viewport-placeholder { color: var(--text-muted); font-size: 12px; text-align: center; font-weight: 600; letter-spacing: 0.5px; font-family: monospace; }
-
-        .cyber-upload-trigger {
-            display: block;
-            text-align: center;
-            background: #03050c;
-            border: 1px dashed var(--neon-blue);
-            padding: 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            color: var(--neon-blue);
-            font-weight: 800;
-            font-size: 12px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.3s;
-        }
-        .cyber-upload-trigger:hover { background: rgba(0, 240, 255, 0.07); text-shadow: 0 0 8px var(--neon-blue); }
-
-        button { 
-            width: 100%; 
-            padding: 18px; 
-            border: none; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-size: 15px; 
-            font-weight: 900; 
-            transition: all 0.3s; 
-            letter-spacing: 1.5px; 
-            text-transform: uppercase;
-        }
-        .btn-launch { 
-            background: linear-gradient(135deg, #00f0ff, #0040e6); 
-            color: white; 
-            box-shadow: 0 6px 25px rgba(0,64,230,0.4); 
-        }
-        .btn-launch:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 30px rgba(0,64,230,0.6); 
-        }
-        .btn-abort { 
-            background: linear-gradient(135deg, var(--neon-red), #aa0033); 
-            color: white; 
-            margin-top: 15px; 
-            display: none; 
-            box-shadow: 0 6px 20px rgba(255,0,85,0.3);
+        .scanline-effect::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.4), transparent);
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
         }
 
-        #progressContainer { display: none; margin-top: 18px; background: #010205; border-radius: 8px; overflow: hidden; height: 28px; border: 1px solid #1a234a; }
-        #progressBar { width: 0%; height: 100%; background: linear-gradient(90deg, #0040e6, var(--neon-blue)); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; color: #fff; transition: width 0.1s; }
-        #loadingStatus { text-align: center; color: var(--neon-blue); font-size: 11px; margin-top: 8px; display: none; font-weight: 700; font-family: monospace; letter-spacing: 0.5px; }
+        /* Terminal Scrollbar */
+        #terminal-logs::-webkit-scrollbar {
+            width: 6px;
+        }
+        #terminal-logs::-webkit-scrollbar-track {
+            background: rgba(3, 7, 18, 0.8);
+        }
+        #terminal-logs::-webkit-scrollbar-thumb {
+            background: #1e2d4d;
+            border-radius: 4px;
+        }
+        #terminal-logs::-webkit-scrollbar-thumb:hover {
+            background: #00f0ff;
+        }
 
-        .terminal-header { font-size: 11px; font-weight: 900; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between; margin-top: 25px; }
-        .terminal-console { background: #010205; color: var(--neon-green); padding: 15px; height: 90px; overflow-y: auto; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 11px; margin-top: 8px; border: 1px solid #111830; box-shadow: inset 0 0 15px rgba(0,0,0,0.6); }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        /* Shimmer Loading Bar Effect */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .shimmer-bg {
+            background: linear-gradient(90deg, #0b2559 0%, #00f0ff 50%, #00ff66 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
     </style>
 </head>
-<body>
-    <div class="mainframe">
-        <div class="system-monitor">
-            <div class="status-badge" id="statusBox">
-                <span class="dot dot-offline" id="statusDot"></span>
-                <span id="statusText" style="color:var(--neon-red)">OFFLINE</span>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyber-cyan selection:text-black">
+
+    <!-- TOP NAVIGATION & MASTER MONITOR HEADER (Feature 2) -->
+    <header class="w-full border-b border-cyber-border bg-cyber-bg/90 backdrop-blur-xl sticky top-0 z-40 px-4 lg:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Brand & Engine Title -->
+            <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyber-sapphire to-cyber-bg border border-cyber-cyan/40 flex items-center justify-center text-cyber-cyan text-xl shadow-glow-cyan">
+                    <i class="fa-solid fa-tower-broadcast"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-orbitron font-extrabold text-lg md:text-xl tracking-wider text-white">
+                            RTMP MAINFRAME
+                        </h1>
+                        <span class="text-[10px] bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/30 px-2 py-0.5 rounded font-mono font-bold tracking-widest">
+                            PRO-v5.2
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-400 font-mono tracking-tight">24/7 CLOUD BROADCAST ENGINE</p>
+                </div>
             </div>
-            <div class="storage-monitor">
-                AUTO-CLEAN: <span style="color:var(--neon-green);">ACTIVE (0% USED)</span><br>
-                PAYLOAD SIZE: <span id="fileSizeLabel" style="color:var(--neon-blue);">0.0 MB</span>
+
+            <!-- Master Monitor Status Controls Header -->
+            <div class="flex flex-wrap items-center gap-3 sm:gap-5">
+                <!-- Status Badge -->
+                <div class="flex items-center gap-2.5 px-4 py-2 rounded-full glass-panel border-cyber-border" id="master-status-badge">
+                    <span id="status-dot" class="w-3 h-3 rounded-full bg-cyber-crimson inline-block shadow-lg"></span>
+                    <span id="status-text" class="text-xs font-mono font-bold tracking-widest text-slate-300">OFFLINE</span>
+                </div>
+
+                <!-- Storage Indicator -->
+                <div class="flex items-center gap-2.5 px-4 py-2 rounded-full glass-panel border-cyber-border text-xs font-mono">
+                    <i class="fa-solid fa-hard-drive text-cyber-cyan"></i>
+                    <span class="text-slate-400 hidden sm:inline">STORAGE:</span>
+                    <span id="storage-indicator-text" class="text-cyber-neonGreen font-semibold">AUTO-CLEAN: ACTIVE (0B USED)</span>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN WORKSPACE DASHBOARD -->
+    <main class="max-w-7xl mx-auto w-full px-4 lg:px-8 py-6 flex-1 flex flex-col gap-6">
+
+        <!-- TRIPLE LIVE METRICS RACK (Feature 3) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            <!-- Card 1: Network Speed Metric -->
+            <div class="glass-panel p-5 relative overflow-hidden group">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-mono text-slate-400 uppercase tracking-widest mb-1.5 flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-up-right-dots text-cyber-cyan"></i> TRANSIT SPEED
+                        </p>
+                        <div id="metric-network-speed" class="text-3xl font-orbitron font-black text-white tracking-wide">
+                            0.0 <span class="text-sm font-mono text-slate-500 font-normal">KB/s</span>
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center text-cyber-cyan text-xl group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-network-wired"></i>
+                    </div>
+                </div>
+                <div class="mt-3 w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                    <div id="speed-indicator-bar" class="bg-cyber-cyan h-full w-0 transition-all duration-500"></div>
+                </div>
+            </div>
+
+            <!-- Card 2: Time Remaining Countdown -->
+            <div class="glass-panel p-5 relative overflow-hidden group">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-mono text-slate-400 uppercase tracking-widest mb-1.5 flex items-center gap-2">
+                            <i class="fa-solid fa-clock text-cyber-warning"></i> SCHEDULER WINDOW
+                        </p>
+                        <div id="metric-countdown" class="text-3xl font-orbitron font-black text-white tracking-wide">
+                            00:00:00
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-cyber-warning/10 border border-cyber-warning/30 flex items-center justify-center text-cyber-warning text-xl group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-stopwatch"></i>
+                    </div>
+                </div>
+                <div class="mt-3 text-[11px] font-mono text-slate-400 flex justify-between">
+                    <span>EXECUTION LIMIT</span>
+                    <span id="metric-limit-label" class="text-cyber-warning font-bold">24 HOURS MAX</span>
+                </div>
+            </div>
+
+            <!-- Card 3: Stream Loop Status -->
+            <div class="glass-panel p-5 relative overflow-hidden group">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-mono text-slate-400 uppercase tracking-widest mb-1.5 flex items-center gap-2">
+                            <i class="fa-solid fa-rotate text-cyber-neonGreen"></i> STREAM LOOP ENGINE
+                        </p>
+                        <div id="metric-loop-status" class="text-2xl font-orbitron font-extrabold text-slate-400 tracking-wide">
+                            STANDBY
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-cyber-neonGreen/10 border border-cyber-neonGreen/30 flex items-center justify-center text-cyber-neonGreen text-xl group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-infinity"></i>
+                    </div>
+                </div>
+                <div class="mt-3 text-[11px] font-mono text-slate-400 flex justify-between">
+                    <span>RE-DISPATCH</span>
+                    <span class="text-cyber-neonGreen font-bold">AUTO-RETRY ACTIVE</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- DASHBOARD WORKSPACE GRID -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- LEFT COLUMN: CONTROLS & SECURITY CONFIGURATION (7 COLS) -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+
+                <!-- BLOCK 1: CLOUD SECURITY GATEWAY (Feature 4) -->
+                <section class="glass-panel p-6 relative">
+                    <div class="flex items-center justify-between border-b border-cyber-border pb-4 mb-5">
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-key text-cyber-cyan text-base"></i>
+                            <h2 class="font-orbitron font-bold text-sm tracking-wider text-slate-200 uppercase">
+                                Block 1: Cloud Security Gateway
+                            </h2>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400 bg-cyber-bg border border-cyber-border px-2 py-0.5 rounded">
+                            256-BIT ENCRYPTED
+                        </span>
+                    </div>
+
+                    <form onsubmit="return false;" class="space-y-4">
+                        <!-- GitHub Access Token -->
+                        <div>
+                            <label class="block text-xs font-mono text-slate-300 mb-2 uppercase tracking-wide">
+                                GitHub Personal Access Token <span class="text-cyber-crimson">*</span>
+                            </label>
+                            <div class="relative">
+                                <input type="password" id="github-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" 
+                                    class="cyber-input w-full px-4 py-3 rounded-xl text-sm pr-12 focus:ring-1 focus:ring-cyber-cyan">
+                                <button type="button" onclick="togglePasswordVisibility('github-token', 'gh-eye-icon')" 
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyber-cyan transition-colors">
+                                    <i id="gh-eye-icon" class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- YouTube RTMP Key -->
+                        <div>
+                            <label class="block text-xs font-mono text-slate-300 mb-2 uppercase tracking-wide">
+                                YouTube RTMP Stream Key <span class="text-cyber-crimson">*</span>
+                            </label>
+                            <div class="relative">
+                                <input type="password" id="rtmp-key" placeholder="xxxx-xxxx-xxxx-xxxx-xxxx" 
+                                    class="cyber-input w-full px-4 py-3 rounded-xl text-sm pr-12 focus:ring-1 focus:ring-cyber-cyan">
+                                <button type="button" onclick="togglePasswordVisibility('rtmp-key', 'rtmp-eye-icon')" 
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyber-cyan transition-colors">
+                                    <i id="rtmp-eye-icon" class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- BLOCK 3: ENGINE AUTO-SCHEDULER (Feature 6) -->
+                <section class="glass-panel p-6">
+                    <div class="flex items-center gap-2.5 border-b border-cyber-border pb-4 mb-5">
+                        <i class="fa-solid fa-calendar-clock text-cyber-warning text-base"></i>
+                        <h2 class="font-orbitron font-bold text-sm tracking-wider text-slate-200 uppercase">
+                            Block 3: Engine Auto-Scheduler
+                        </h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <!-- Stop Threshold Date Time -->
+                        <div>
+                            <label class="block text-xs font-mono text-slate-300 mb-2 uppercase tracking-wide">
+                                Stop Threshold Time
+                            </label>
+                            <input type="datetime-local" id="schedule-datetime" 
+                                class="cyber-input w-full px-4 py-2.5 rounded-xl text-xs cursor-pointer">
+                        </div>
+
+                        <!-- Execution Limit Dropdown -->
+                        <div>
+                            <label class="block text-xs font-mono text-slate-300 mb-2 uppercase tracking-wide">
+                                Max Execution Limit
+                            </label>
+                            <select id="execution-limit" onchange="updateLimitLabel()" 
+                                class="cyber-input w-full px-4 py-2.5 rounded-xl text-xs cursor-pointer">
+                                <option value="24" selected>24 Hours Max (Recommended)</option>
+                                <option value="12">12 Hours Max Execution</option>
+                                <option value="6">6 Hours Max Execution</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STREAM CONTROLS & ANIMATED PROGRESS LOADER (Feature 7) -->
+                <section class="glass-panel p-6 flex flex-col gap-5">
+                    
+                    <!-- Progress Bar Container -->
+                    <div class="space-y-2.5">
+                        <div class="flex justify-between items-center text-xs font-mono">
+                            <span id="progress-stage-label" class="text-slate-400 flex items-center gap-2">
+                                <i class="fa-solid fa-microchip text-cyber-cyan"></i> STATUS: IDLE / STANDBY
+                            </span>
+                            <span id="progress-percentage" class="text-cyber-cyan font-bold font-orbitron text-sm">0%</span>
+                        </div>
+                        
+                        <div class="w-full bg-black/90 h-3.5 rounded-full overflow-hidden border border-cyber-border p-0.5 relative">
+                            <div id="progress-bar-fill" class="shimmer-bg h-full rounded-full transition-all duration-300 w-0 shadow-glow-cyan"></div>
+                        </div>
+                    </div>
+
+                    <!-- Action Control Buttons -->
+                    <div class="pt-2 flex flex-col sm:flex-row gap-4">
+                        <!-- Launch Button -->
+                        <button id="btn-launch" onclick="initializeCloudDispatch()" 
+                            class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-cyber-sapphire via-cyber-cyan to-cyber-neonGreen text-black font-orbitron font-black tracking-widest text-xs sm:text-sm hover:brightness-110 active:scale-[0.98] transition-all shadow-glow-cyan flex items-center justify-center gap-2.5 cursor-pointer">
+                            <i class="fa-solid fa-bolt text-base"></i>
+                            <span>⚡ INITIALIZE CLOUD DISPATCH</span>
+                        </button>
+
+                        <!-- Abort Button (Hidden initially) -->
+                        <button id="btn-abort" onclick="abortStreamDispatch()" 
+                            class="hidden w-full py-4 px-6 rounded-xl bg-gradient-to-r from-red-700 to-cyber-crimson text-white font-orbitron font-black tracking-widest text-xs sm:text-sm hover:brightness-110 active:scale-[0.98] transition-all shadow-glow-crimson flex items-center justify-center gap-2.5 cursor-pointer">
+                            <i class="fa-solid fa-power-off text-base"></i>
+                            <span>🛑 ABORT STREAM DISPATCH</span>
+                        </button>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- RIGHT COLUMN: TARGET MEDIA DISPATCHER (5 COLS) -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+
+                <!-- BLOCK 2: TARGET MEDIA DISPATCHER (Feature 5) -->
+                <section class="glass-panel p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between border-b border-cyber-border pb-4 mb-5">
+                            <div class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-clapperboard text-cyber-neonGreen text-base"></i>
+                                <h2 class="font-orbitron font-bold text-sm tracking-wider text-slate-200 uppercase">
+                                    Block 2: Media Dispatcher
+                                </h2>
+                            </div>
+                            <span id="file-size-badge" class="hidden text-[10px] font-mono bg-cyber-cyan/10 border border-cyber-cyan/30 text-cyber-cyan px-2 py-0.5 rounded font-bold">
+                                0.0 MB
+                            </span>
+                        </div>
+
+                        <!-- Drag & Drop / Upload Button Container -->
+                        <div class="mb-5">
+                            <label for="media-file-input" 
+                                class="cursor-pointer w-full border-2 border-dashed border-cyber-border hover:border-cyber-cyan bg-cyber-bg/50 hover:bg-cyber-sapphire/20 p-5 rounded-xl flex flex-col items-center justify-center gap-2 transition-all group">
+                                <div class="w-12 h-12 rounded-full bg-cyber-cyan/10 flex items-center justify-center text-cyber-cyan text-xl group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-folder-open"></i>
+                                </div>
+                                <span id="file-label-text" class="font-mono text-xs text-slate-300 font-semibold text-center">
+                                    📂 LOAD GAMING FOOTAGE / FILE (.MP4, .MKV)
+                                </span>
+                                <span class="text-[10px] text-slate-500 font-mono">Supports H.264 / AAC Encoding</span>
+                            </label>
+                            <input type="file" id="media-file-input" accept="video/mp4,video/x-matroska" class="hidden" onchange="handleFileSelection(event)">
+                        </div>
+                    </div>
+
+                    <!-- Video Preview Viewport Box -->
+                    <div class="relative w-full aspect-video bg-black/90 rounded-xl border border-cyber-border overflow-hidden flex items-center justify-center scanline-effect shadow-inner">
+                        <!-- Placeholder State -->
+                        <div id="video-placeholder" class="flex flex-col items-center justify-center text-slate-500 p-6 text-center gap-2">
+                            <i class="fa-solid fa-film text-4xl text-slate-700 mb-1"></i>
+                            <p class="text-xs font-mono tracking-wider">NO MEDIA PAYLOAD MOUNTED</p>
+                            <p class="text-[10px] text-slate-600 font-mono">Mount a local video file to initialize local feed test</p>
+                        </div>
+
+                        <!-- Mounted Video Element -->
+                        <video id="video-preview" controls class="hidden w-full h-full object-contain"></video>
+                    </div>
+                </section>
+
             </div>
         </div>
 
-        <h2>⚡ STREAM ENGINE MAINBOARD ⚡</h2>
-        
-        <div class="cyber-card">
-            <div class="card-header-tag">🔐 ENCRYPTED CLOUD GATEWAY</div>
-            <div class="input-wrapper">
-                <label>GitHub Personal Access Token:</label>
-                <input type="password" id="githubToken" placeholder="ghp_XXXXXXXXXXXXXXXXXXXX" required>
+        <!-- CORE SYSTEM LOGS TERMINAL (Feature 8) -->
+        <section class="glass-panel p-5 scanline-effect relative">
+            <div class="flex items-center justify-between border-b border-cyber-border pb-3 mb-3">
+                <div class="flex items-center gap-3">
+                    <div class="flex gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                    </div>
+                    <span class="text-xs font-mono text-slate-300 font-bold tracking-widest uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-terminal text-cyber-cyan"></i> CORE SYSTEM LOGS TERMINAL
+                    </span>
+                </div>
+                <button onclick="clearTerminalLogs()" 
+                    class="text-[11px] font-mono text-slate-400 hover:text-cyber-cyan px-2.5 py-1 rounded border border-cyber-border hover:border-cyber-cyan transition-all">
+                    <i class="fa-solid fa-trash-can mr-1"></i> CLEAR LOGS
+                </button>
             </div>
-            <div class="input-wrapper">
-                <label>YouTube RTMP Stream Key:</label>
-                <input type="password" id="streamKey" placeholder="Pasted Key (Hidden Protection)" required>
+
+            <!-- Scrollable Matrix Console Window -->
+            <div id="terminal-logs" class="h-44 overflow-y-auto font-mono text-xs space-y-2 p-3 bg-black/90 rounded-lg border border-cyber-border/80">
+                <!-- Dynamic Logs Appended Here -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- LIVE FEED PREVIEW POPUP OVERLAY MODAL (Feature 9) -->
+    <div id="live-overlay-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl hidden flex items-center justify-center p-4 sm:p-6">
+        <div class="relative w-full max-w-5xl glass-panel border-2 border-cyber-neonGreen/60 rounded-2xl overflow-hidden shadow-2xl">
+            
+            <!-- Modal Header Bar -->
+            <div class="flex items-center justify-between px-6 py-4 bg-cyber-bg/95 border-b border-cyber-border">
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-cyber-neonGreen animate-live-indicator"></span>
+                    <h3 class="font-orbitron font-extrabold text-sm text-white tracking-wider uppercase">
+                        LIVE BROADCAST FEED PREVIEW OVERLAY
+                    </h3>
+                    <span class="hidden sm:inline-block text-[10px] font-mono bg-cyber-neonGreen/10 border border-cyber-neonGreen/30 text-cyber-neonGreen px-2.5 py-0.5 rounded font-bold">
+                        1080p @ 60 FPS (RTMP PIPELINE)
+                    </span>
+                </div>
+
+                <!-- Close Button (X) -->
+                <button onclick="closeLiveOverlay()" 
+                    class="w-9 h-9 rounded-xl bg-cyber-border/40 hover:bg-cyber-crimson hover:text-white text-slate-300 transition-all flex items-center justify-center cursor-pointer">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body (Video Container) -->
+            <div class="relative aspect-video bg-black flex items-center justify-center">
+                <video id="modal-video-preview" autoplay loop muted class="w-full h-full object-contain"></video>
+
+                <!-- On-Screen HUD Overlay Stats -->
+                <div class="absolute top-4 left-4 bg-black/70 backdrop-blur-md p-3 rounded-xl border border-white/10 font-mono text-xs space-y-1 text-slate-200">
+                    <div><span class="text-cyber-cyan">PROTOCOL:</span> RTMP / FLV INGESTION</div>
+                    <div><span class="text-cyber-neonGreen">BITRATE:</span> 6000 Kbps (STABLE)</div>
+                    <div><span class="text-cyber-warning">LOOP MODE:</span> INFINITE CONTINUOUS</div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-4 bg-cyber-bg/95 border-t border-cyber-border flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-slate-400">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-cyber-cyan"></i>
+                    <span>Stream runs continuously in the background. Closing this modal does not stop broadcast.</span>
+                </div>
+                <button onclick="closeLiveOverlay()" 
+                    class="px-5 py-2 rounded-xl bg-cyber-border hover:bg-slate-700 text-white font-bold transition-all cursor-pointer">
+                    DISMISS OVERLAY
+                </button>
             </div>
         </div>
+    </div>
 
-        <div class="cyber-card">
-            <div class="card-header-tag">🎮 TARGET MEDIA DISPATCHER</div>
-            <div class="input-wrapper">
-                <label for="videoFile" class="cyber-upload-trigger">📂 LOAD GAMING FOOTAGE / FILE</label>
-                <input type="file" id="videoFile" accept="video/*" style="display:none;" required>
-            </div>
-            <div class="viewport-screen" id="viewportScreen">
-                <span class="viewport-placeholder" id="placeholderText">[ MAINFRAME STANDBY: LOAD MP4 FILE ]</span>
-                <video id="videoPlayback" controls muted></video>
-            </div>
-        </div>
+    <!-- JAVASCRIPT AUTOMATION ENGINE (Feature 10) -->
+    <script>
+        // System State Variables
+        let isLive = false;
+        let isDispatching = false;
+        let selectedFile = null;
+        let selectedFileSizeMB = 0;
+        let timerInterval = null;
+        let speedInterval = null;
+        let targetEndTime = null;
 
-        <div class="cyber-card">
-            <div class="card-header-tag">⏱️ CORE SCHEDULER WINDOW</div>
+        // Initialize System Engine on Load
+        window.onload = function() {
+            logTerminal("SYSTEM", "RTMP Mainframe Kernel v5.2 Initialized", "info");
+            logTerminal("STORAGE", "Cloud Auto-Clean Buffer Storage Mounted (0B Used)", "info");
+            
+            // Set Default Schedule Date-Time Picker to +24 Hours
+            const defaultDate = new Date();
+            defaultDate.setHours(defaultDate.getHours() + 24);
+            const isoLocal = new Date(defaultDate.getTime() - (defaultDate.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
+            document.getElementById('schedule-datetime').value = isoLocal;
+        };
+
+        // Terminal Log Appender
+        function logTerminal(tag, message, level = "info") {
+            const terminal = document.getElementById('terminal-logs');
+            if (!terminal) return;
+
+            const timeStr = new Date().toLocaleTimeString('en-US', { hour12: false });
+            let tagColor = "text-cyber-cyan";
+            let textColor = "text-slate-300";
+
+            if (level === "success") {
+                tagColor = "text-cyber-neonGreen font-bold";
+                textColor = "text-cyber-neonGreen";
+            } else if (level === "warning") {
+                tagColor = "text-cyber-warning font-bold";
+                textColor = "text-cyber-warning";
+            } else if (level === "error") {
+                tagColor = "text-cyber-crimson font-bold";
+                textColor = "text-cyber-crimson font-semibold";
+            }
+
+            const logLine = document.createElement('div');
+            logLine.className = "flex items-start gap-2.5 leading-relaxed font-mono";
+            logLine.innerHTML = `
+                <span class="text-slate-500">[${timeStr}]</span>
+                <span class="${tagColor}">[${tag}]</span>
+                <span class="${textColor}">${message}</span>
+            `;
+
+            terminal.appendChild(logLine);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        // Clear Terminal Console
+        function clearTerminalLogs() {
+            document.getElementById('terminal-logs').innerHTML = '';
+            logTerminal("SYSTEM", "Console log buffer cleared", "info");
+        }
+
+        // Toggle Password Input Visibility
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+
+        // Update Limit Label Card UI
+        function updateLimitLabel() {
+            const val = document.getElementById('execution-limit').value;
+            document.getElementById('metric-limit-label').innerText = `${val} HOURS MAX`;
+        }
+
+        // Handle Media File Upload Parsing (Block 2)
+        function handleFileSelection(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            selectedFile = file;
+            selectedFileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+
+            // Update UI Details
+            document.getElementById('file-label-text').innerText = `📂 ${file.name.toUpperCase()}`;
+            const sizeBadge = document.getElementById('file-size-badge');
+            sizeBadge.innerText = `${selectedFileSizeMB} MB`;
+            sizeBadge.classList.remove('hidden');
+
+            // Update Storage Header Badge
+            document.getElementById('storage-indicator-text').innerText = `PAYLOAD MOUNTED (${selectedFileSizeMB} MB)`;
+            document.getElementById('storage-indicator-text').className = "text-cyber-cyan font-bold";
+
+            // Mount Video to Local Preview Box
+            const videoPreview = document.getElementById('video-preview');
+            const placeholder = document.getElementById('video-placeholder');
+            
+            videoPreview.src = URL.createObjectURL(file);
+            videoPreview.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+
+            logTerminal("MEDIA", `Loaded binary stream payload: ${file.name} (${selectedFileSizeMB} MB)`, "success");
+        }
+
+        // Initialize Cloud Dispatch (Launch Button Handler)
+        function initializeCloudDispatch() {
+            const ghToken = document.getElementById('github-token').value.trim();
+            const rtmpKey = document.getElementById('rtmp-key').value.trim();
+
+            // Validation Guards
+            if (!ghToken) {
+                logTerminal("SECURITY", "GitHub Personal Access Token required!", "error");
+                showNotification("Please enter a GitHub Personal Access Token.");
+                return;
+            }
+            if (!rtmpKey) {
+                logTerminal("SECURITY", "YouTube RTMP Stream Key required!", "error");
+                showNotification("Please enter your YouTube RTMP Stream Key.");
+                return;
+            }
+            if (!selectedFile) {
+                logTerminal("MEDIA", "No media payload loaded!", "warning");
+                showNotification("Please select an MP4 or MKV gaming video payload.");
+                return;
+            }
+
+            if (isLive || isDispatching) return;
+
+            isDispatching = true;
+            document.getElementById('btn-launch').disabled = true;
+            document.getElementById('btn-launch').classList.add('opacity-50', 'cursor-not-allowed');
+
+            logTerminal("PIPELINE", "Initiating RTMP Stream handshake sequence...", "info");
+
+            // Multi-Stage Progress Animation Stages
+            const stages = [
+                { percent: 20, label: "INITIALIZING CLOUD ENGINE STACK...", log: "Allocating cloud container..." },
+                { percent: 50, label: "ALLOCATING CLOUD MEDIA BUFFER...", log: "Buffer allocated (Payload size checked)" },
+                { percent: 75, label: "ESTABLISHING RTMP HANDSHAKE...", log: "RTMP Socket connected to YouTube Live Ingest" },
+                { percent: 100, label: "INJECTING CONTINUOUS STREAM...", log: "Pipeline fully active. Continuous loop started." }
+            ];
+
+            let currentStage = 0;
+            const fillBar = document.getElementById('progress-bar-fill');
+            const percentText = document.getElementById('progress-percentage');
+            const stageText = document.getElementById('progress-stage-label');
+
+            const dispatchInterval = setInterval(() => {
+                if (currentStage >= stages.length) {
+                    clearInterval(dispatchInterval);
+                    completeDispatchLaunch();
+                    return;
+                }
+
+                const stage = stages[currentStage];
+                fillBar.style.width = `${stage.percent}%`;
+                percentText.innerText = `${stage.percent}%`;
+                stageText.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-cyber-cyan"></i> ${stage.label}`;
+                logTerminal("DISPATCH", stage.log, "info");
+
+                currentStage++;
+            }, 800);
+        }
+
+        // Complete Dispatch Launch (Switches state to LIVE)
+        function completeDispatchLaunch() {
+            isDispatching = false;
+            isLive = true;
+
+            // Update Master Header Status Badge (Feature 2)
+            const statusDot = document.getElementById('status-dot');
+            const statusText = document.getElementById('status-text');
+            statusDot.className = "w-3 h-3 rounded-full bg-cyber-neonGreen animate-live-indicator inline-block";
+            statusText.innerText = "LIVE BROADCAST ACTIVE";
+            statusText.className = "text-xs font-mono font-bold tracking-widest text-cyber-neonGreen";
+
+            // Update Metrics Cards (Feature 3)
+            const loopMetric = document.getElementById('metric-loop-status');
+            loopMetric.innerText = "INFINITE LOOP";
+            loopMetric.className = "text-2xl font-orbitron font-extrabold text-cyber-neonGreen tracking-wide";
+
+            // Toggle Control Buttons
+            document.getElementById('btn-launch').classList.add('hidden');
+            document.getElementById('btn-abort').classList.remove('hidden');
+
+            // Start Live Metric Simulations
+            startNetworkSpeedSimulation();
+            startExecutionCountdown();
+
+            logTerminal("SUCCESS", "RTMP Stream Pipeline BROADCASTING LIVE!", "success");
+
+            // Open Live Feed Overlay Modal (Feature 9)
+            triggerLiveOverlayModal();
+        }
+
+        // Abort Stream Dispatch (Kill Switch)
+        function abortStreamDispatch() {
+            isLive = false;
+            isDispatching = false;
+
+            // Reset Master Status Header
+            const statusDot = document.getElementById('status-dot');
+            const statusText = document.getElementById('status-text');
+            statusDot.className = "w-3 h-3 rounded-full bg-cyber-crimson inline-block";
+            statusText.innerText = "OFFLINE";
+            statusText.className = "text-xs font-mono font-bold tracking-widest text-slate-300";
+
+            // Reset Metrics Rack Cards
+            document.getElementById('metric-network-speed').innerHTML = '0.0 <span class="text-sm font-mono text-slate-500 font-normal">KB/s</span>';
+            document.getElementById('speed-indicator-bar').style.width = "0%";
+            document.getElementById('metric-loop-status').innerText = "STANDBY";
+            document.getElementById('metric-loop-status').className = "text-2xl font-orbitron font-extrabold text-slate-400 tracking-wide";
+            document.getElementById('metric-countdown').innerText = "00:00:00";
+
+            // Reset Buttons & Loader UI
+            document.getElementById('btn-launch').classList.remove('hidden');
+            document.getElementById('btn-launch').disabled = false;
+            document.getElementById('btn-launch').classList.remove('opacity-50', 'cursor-not-allowed');
+            document.getElementById('btn-abort').classList.add('hidden');
+
+            document.getElementById('progress-bar-fill').style.width = "0%";
+            document.getElementById('progress-percentage').innerText = "0%";
+            document.getElementById('progress-stage-label').innerHTML = `<i class="fa-solid fa-microchip text-cyber-cyan"></i> STATUS: IDLE / STANDBY`;
+
+            // Clear Dynamic Intervals
+            if (timerInterval) clearInterval(timerInterval);
+            if (speedInterval) clearInterval(speedInterval);
+
+            logTerminal("ABORT", "Stream pipeline manually terminated by user operator.", "error");
+        }
+
+        // Network Bandwidth Speed Simulation
+        function startNetworkSpeedSimulation() {
+            const speedElem = document.getElementById('metric-network-speed');
+            const bar = document.getElementById('speed-indicator-bar');
+
+            speedInterval = setInterval(() => {
+                if (!isLive) return;
+                // Fluctuating MB/s bandwidth calculation
+                const speed = (Math.random() * 2.2 + 3.2).toFixed(2);
+                speedElem.innerHTML = `${speed} <span class="text-sm font-mono text-slate-500 font-normal">MB/s</span>`;
+                
+                // Relative percentage fill for speed bar
+                const pct = Math.min((parseFloat(speed) / 6.0) * 100, 100);
+                bar.style.width = `${pct}%`;
+            }, 1200);
+        }
+
+        // Live Countdown Clock Engine
+        function startExecutionCountdown() {
+            const hoursLimit = parseInt(document.getElementById('execution-limit').value, 10) || 24;
+            const scheduledInput = document.getElementById('schedule-datetime').value;
+
+            if (scheduledInput) {
+                targetEndTime = new Date(scheduledInput).getTime();
+            } else {
+                targetEndTime = new Date().getTime() + (hoursLimit * 60 * 60 * 1000);
+            }
+
+            const countdownElem = document.getElementById('metric-countdown');
+
+            timerInterval = setInterval(() => {
+                if (!isLive) return;
+
+                const now = new Date().getTime();
+                const distance = targetEndTime - now;
+
+                if (distance <= 0) {
+                    clearInterval(timerInterval);
+                    countdownElem.innerText = "00:00:00";
+                    logTerminal("SCHEDULER", "Scheduled limit reached. Aborting stream cleanly.", "warning");
+                    abortStreamDispatch();
+                    return;
+                }
+
+                const hours = Math.floor(distance / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                const pad = (n) => n.toString().padStart(2, '0');
+                countdownElem.innerText = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+            }, 1000);
+        }
+
+        // Live Modal Overlay Controls (Feature 9)
+        function triggerLiveOverlayModal() {
+            const modal = document.getElementById('live-overlay-modal');
+            const modalVideo = document.getElementById('modal-video-preview');
+
+            if (selectedFile) {
+                modalVideo.src = URL.createObjectURL(selectedFile);
+                modalVideo.play().catch(() => {});
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeLiveOverlay() {
+            const modal = document.getElementById('live-overlay-modal');
+            const modalVideo = document.getElementById('modal-video-preview');
+            modalVideo.pause();
+            modal.classList.add('hidden');
+            logTerminal("UI", "Live preview overlay closed. Stream running background.", "info");
+        }
+
+        // Custom Inline Toast Notification
+        function showNotification(msg) {
+            const existing = document.getElementById('cyber-toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.id = 'cyber-toast';
+            toast.className = "fixed bottom-6 right-6 z-50 glass-panel border border-cyber-crimson p-4 rounded-xl shadow-glow-crimson flex items-center gap-3 font-mono text-xs text-white animate-bounce";
+            toast.innerHTML = `
+                <i class="fa-solid fa-circle-exclamation text-cyber-crimson text-lg"></i>
+                <span>${msg}</span>
+                <button onclick="this.parentElement.remove()" class="ml-3 text-slate-400 hover:text-white">&times;</button>
+            `;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                if (toast && toast.parentElement) toast.remove();
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
+```
