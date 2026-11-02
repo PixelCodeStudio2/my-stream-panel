@@ -1,25 +1,32 @@
-name: Cloud Streaming Engine
+name: 24-7 Infinite Live Stream Engine
+
 on:
   repository_dispatch:
-    types: [start_stream]
-jobs:
-  stream:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout Code Repository
-      uses: actions/checkout@v3
+    types: [start_stream] # Yeh event Hugging Face ke button se match karta hai
 
-    - name: Auto-Clean Old Video Storage
+jobs:
+  live_stream:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Install FFmpeg (Powerful Streaming Tool)
       run: |
-        echo "[CLEANUP] Purging previous media data to save free storage..."
-        rm -f video.mp4
-        
-    - name: Download New Video Packets
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg
+
+    - name: Run Infinite Loop Live Stream
       run: |
-        sudo apt-get update && sudo apt-get install -y ffmpeg curl
-        curl -L "${{ github.event.client_payload.video_url }}" -o video.mp4
+        echo "Starting Live Stream Engine..."
         
-    - name: Run Max 24H Live Loop
-      run: |
-        timeout 24h ffmpeg -re -stream_loop -1 -i "video.mp4" -c:v libx264 -preset veryfast -b:v 2500k -f flv "rtmp://://youtube.com{{ github.event.client_payload.stream_key }}"
+        # Hugging Face se bheja hua data uthayein
+        VIDEO_URL="${{ github.event.client_payload.video_url }}"
+        STREAM_KEY="${{ github.event.client_payload.stream_key }}"
         
+        # FFmpeg command jo video ko crash nahi hone dega aur infinite chalayega
+        ffmpeg -re -stream_loop -1 -i "$VIDEO_URL" \
+        -c:v libx264 -preset veryfast -b:v 2500k -maxrate 2500k -bufsize 5000k \
+        -pix_fmt yuv420p -g 50 -c:a aac -b:a 128k -ar 44100 \
+        -f flv "rtmp://://youtube.com"
